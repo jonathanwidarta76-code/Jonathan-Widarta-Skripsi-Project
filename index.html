@@ -7,70 +7,103 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg: #0b0e14;
-    --panel: #11151d;
-    --line: #1f2530;
-    --ink: #e8ebf0;
-    --ink-dim: #8d96a8;
-    --signal: #34d399;   /* up / correct */
-    --alert: #fb7185;    /* down / incorrect */
-    --accent: #7c9cff;   /* neutral accent */
+    --bg: #0a0a0a;
+    --panel: #121212;
+    --panel-2: #161616;
+    --line: #262626;
+    --ink: #f2f2f2;
+    --ink-dim: #9a9a9a;
+    --green: #76b900;
+    --green-dim: #4f7d00;
+    --green-soft: rgba(118,185,0,0.12);
+    --red: #e6483f;
+    --red-soft: rgba(230,72,63,0.12);
   }
   *{box-sizing:border-box;}
   body{
     margin:0; background:var(--bg); color:var(--ink);
-    font-family:'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family:'Helvetica Neue', Arial, sans-serif;
   }
-  .mono{ font-family:'IBM Plex Mono', 'SF Mono', Consolas, monospace; }
+  .mono{ font-family:'SF Mono', 'IBM Plex Mono', Consolas, monospace; }
 
   header{
-    padding:36px 40px 24px; border-bottom:1px solid var(--line);
+    padding:40px 40px 26px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(118,185,0,0.06), transparent 70%);
   }
   .eyebrow{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--accent); margin:0 0 10px;
+    font-family:'SF Mono', monospace; font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--green); margin:0 0 12px; font-weight:700;
   }
-  h1{ font-size:30px; margin:0 0 8px; font-weight:600; letter-spacing:-.01em;}
-  .sub{ color:var(--ink-dim); font-size:14px; max-width:640px; }
+  h1{ font-size:32px; margin:0 0 8px; font-weight:800; letter-spacing:-.01em; }
+  .sub{ color:var(--ink-dim); font-size:14px; max-width:680px; line-height:1.5; }
 
-  main{ padding:28px 40px 60px; display:grid; gap:24px; }
+  main{ padding:30px 40px 60px; display:grid; gap:22px; }
 
-  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
   .stat{
-    background:var(--panel); border:1px solid var(--line); border-radius:10px;
-    padding:18px 20px;
+    background:var(--panel); border:1px solid var(--line); border-radius:8px;
+    padding:18px 20px; position:relative; overflow:hidden;
+  }
+  .stat::before{
+    content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--green);
   }
   .stat .label{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-dim); margin-bottom:8px;}
-  .stat .value{ font-family:'IBM Plex Mono', monospace; font-size:26px; font-weight:600; }
-  .stat .value.up{ color:var(--signal); }
-  .stat .value.down{ color:var(--alert); }
+  .stat .value{ font-family:'SF Mono', monospace; font-size:28px; font-weight:700; color:var(--green); }
+
+  .grid-2{ display:grid; grid-template-columns:2fr 1fr; gap:22px; }
 
   .panel{
-    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    background:var(--panel); border:1px solid var(--line); border-radius:8px;
     padding:22px 24px;
   }
-  .panel h2{ font-size:15px; margin:0 0 4px; font-weight:600; }
+  .panel h2{ font-size:16px; margin:0 0 4px; font-weight:700; }
   .panel .desc{ font-size:12.5px; color:var(--ink-dim); margin:0 0 16px; }
   canvas{ max-height:320px; }
 
-  .legend{ display:flex; gap:18px; font-size:12px; color:var(--ink-dim); margin-top:10px; }
+  .legend{ display:flex; gap:18px; font-size:12px; color:var(--ink-dim); margin-top:12px; flex-wrap:wrap; }
   .legend span{ display:inline-flex; align-items:center; gap:6px; }
   .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
 
+  .filter-bar{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+  .filter-bar .label{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em; margin-right:6px; }
+  .chip{
+    background:var(--panel-2); border:1px solid var(--line); color:var(--ink-dim);
+    border-radius:20px; padding:6px 14px; font-size:12.5px; cursor:pointer;
+    transition:all .15s ease; font-family:inherit;
+  }
+  .chip:hover{ border-color:var(--green-dim); color:var(--ink); }
+  .chip.active{ background:var(--green-soft); border-color:var(--green); color:var(--green); font-weight:600; }
+
+  .search-input{
+    background:var(--panel-2); border:1px solid var(--line); color:var(--ink);
+    border-radius:6px; padding:7px 12px; font-size:12.5px; font-family:inherit;
+    margin-left:auto; min-width:160px;
+  }
+  .search-input::placeholder{ color:#666; }
+  .search-input:focus{ outline:none; border-color:var(--green-dim); }
+
   table{ width:100%; border-collapse:collapse; font-size:13px; }
-  th, td{ text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); }
-  th{ color:var(--ink-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:500;}
-  td.mono{ font-family:'IBM Plex Mono', monospace; }
-  .pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:11.5px; font-weight:600; }
-  .pill.up{ background:rgba(52,211,153,.14); color:var(--signal); }
-  .pill.down{ background:rgba(251,113,133,.14); color:var(--alert); }
-  .pill.correct{ color:var(--signal); }
-  .pill.wrong{ color:var(--alert); }
+  th, td{ text-align:left; padding:10px 10px; border-bottom:1px solid var(--line); }
+  th{ color:var(--ink-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:600;
+      cursor:pointer; user-select:none; }
+  th:hover{ color:var(--green); }
+  td.mono{ font-family:'SF Mono', monospace; }
+  .pill{ display:inline-block; padding:3px 10px; border-radius:20px; font-size:11.5px; font-weight:700; }
+  .pill.up{ background:var(--green-soft); color:var(--green); }
+  .pill.down{ background:var(--red-soft); color:var(--red); }
+  .pill.correct{ color:var(--green); }
+  .pill.wrong{ color:var(--red); }
+
+  .conf-bar{ display:flex; align-items:center; gap:8px; }
+  .conf-track{ flex:1; height:5px; background:var(--line); border-radius:3px; overflow:hidden; max-width:70px; }
+  .conf-fill{ height:100%; background:var(--green); }
 
   .empty{ color:var(--ink-dim); font-size:13px; padding:20px 0; }
+  .row-count{ color:var(--ink-dim); font-size:11.5px; margin-top:10px; }
 
-  @media (max-width:880px){
+  @media (max-width:900px){
     .stat-row{ grid-template-columns:repeat(2,1fr); }
+    .grid-2{ grid-template-columns:1fr; }
     header, main{ padding-left:20px; padding-right:20px; }
   }
 </style>
@@ -78,46 +111,76 @@
 <body>
 
 <header>
-  <p class="eyebrow">NVDA · Twitter Sentiment → Price Direction</p>
+  <p class="eyebrow">NVDA · Twitter Sentiment Analysis &amp; Price Direction</p>
   <h1>Sentiment Signal Dashboard</h1>
-  <p class="sub">Daily NVIDIA tweet sentiment fed through a hybrid model — an LSTM extracts temporal sentiment features, a Random Forest turns them into a next-day price direction call.</p>
+  <p class="sub">Hybrid LSTM + Random Forest model: an LSTM extracts temporal sentiment features from daily NVIDIA tweet sentiment, then a Random Forest converts them into a next-day price direction call.</p>
 </header>
 
 <main>
 
   <div class="stat-row" id="statRow">
-    <div class="stat"><div class="label">Test accuracy</div><div class="value mono" id="statAcc">—</div></div>
-    <div class="stat"><div class="label">Precision</div><div class="value mono" id="statPrec">—</div></div>
-    <div class="stat"><div class="label">Recall</div><div class="value mono" id="statRec">—</div></div>
-    <div class="stat"><div class="label">F1 score</div><div class="value mono" id="statF1">—</div></div>
+    <div class="stat"><div class="label">Test accuracy</div><div class="value" id="statAcc">—</div></div>
+    <div class="stat"><div class="label">Precision</div><div class="value" id="statPrec">—</div></div>
+    <div class="stat"><div class="label">Recall</div><div class="value" id="statRec">—</div></div>
+    <div class="stat"><div class="label">F1 score</div><div class="value" id="statF1">—</div></div>
   </div>
 
   <div class="panel">
     <h2>Price vs. predicted direction</h2>
-    <p class="desc">Closing price on the test period, marked where the model called the next day up or down. Color shows whether the call was correct.</p>
+    <p class="desc">Closing price on the test period. Markers show the model's next-day call: ▲ up / ▼ down, colored by whether it was correct.</p>
+    <div class="filter-bar">
+      <span class="label">Show</span>
+      <button class="chip active" data-pricefilter="all">All days</button>
+      <button class="chip" data-pricefilter="correct">Correct only</button>
+      <button class="chip" data-pricefilter="wrong">Incorrect only</button>
+    </div>
     <canvas id="priceChart"></canvas>
     <div class="legend">
-      <span><span class="dot" style="background:var(--signal)"></span>Correct call</span>
-      <span><span class="dot" style="background:var(--alert)"></span>Incorrect call</span>
+      <span><span class="dot" style="background:var(--green)"></span>Correct call</span>
+      <span><span class="dot" style="background:var(--red)"></span>Incorrect call</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h2>Sentiment trend</h2>
+      <p class="desc">Average daily VADER compound score and tweet volume split by polarity.</p>
+      <canvas id="sentimentChart"></canvas>
+    </div>
+
+    <div class="panel">
+      <h2>Sentiment mix</h2>
+      <p class="desc">Total tweets across the dataset, by polarity.</p>
+      <canvas id="sentimentDonut"></canvas>
+      <div id="sentimentTotals" class="legend"></div>
     </div>
   </div>
 
   <div class="panel">
-    <h2>Sentiment trend</h2>
-    <p class="desc">Average daily VADER compound score and tweet volume split by polarity.</p>
-    <canvas id="sentimentChart"></canvas>
-  </div>
-
-  <div class="panel">
     <h2>Prediction log</h2>
-    <p class="desc">Every test-set day: model call, actual outcome, and confidence.</p>
+    <p class="desc">Every test-set day: model call, actual outcome, and confidence. Click a column header to sort.</p>
+    <div class="filter-bar">
+      <span class="label">Show</span>
+      <button class="chip active" data-tablefilter="all">All</button>
+      <button class="chip" data-tablefilter="up">Predicted up</button>
+      <button class="chip" data-tablefilter="down">Predicted down</button>
+      <button class="chip" data-tablefilter="correct">Correct</button>
+      <button class="chip" data-tablefilter="wrong">Incorrect</button>
+      <input class="search-input" id="dateSearch" placeholder="Filter by date…">
+    </div>
     <div id="tableWrap"><p class="empty">Loading…</p></div>
+    <p class="row-count" id="rowCount"></p>
   </div>
 
 </main>
 
 <script>
 const FALLBACK_NOTICE = `<p class="empty">No data.json found yet. Run train_model_fixed.py to generate it, then place data.json next to this index.html before publishing to GitHub Pages.</p>`;
+let DATA = null;
+let sortState = { key: 'date', dir: 1 };
+let tableFilter = 'all';
+let priceFilter = 'all';
+let priceChartInstance = null;
 
 async function loadData(){
   try{
@@ -139,28 +202,41 @@ function renderStats(m){
   document.getElementById('statF1').textContent   = pct(m.f1);
 }
 
-function renderPriceChart(preds){
-  const ctx = document.getElementById('priceChart');
-  const labels = preds.map(p => p.date);
-  const closes = preds.map(p => p.close);
-  const pointColors = preds.map(p => p.correct ? '#34d399' : '#fb7185');
-  const pointStyles = preds.map(p => p.predicted === 1 ? 'triangle' : 'rectRot');
+function filteredPreds(preds, filter){
+  if(filter === 'correct') return preds.filter(p => p.correct);
+  if(filter === 'wrong') return preds.filter(p => !p.correct);
+  return preds;
+}
 
-  new Chart(ctx, {
+function renderPriceChart(allPreds){
+  const ctx = document.getElementById('priceChart');
+  const preds = filteredPreds(allPreds, priceFilter);
+
+  const labels = allPreds.map(p => p.date);
+  const closes = allPreds.map(p => p.close);
+  const shownSet = new Set(preds.map(p => p.date));
+
+  const pointColors = allPreds.map(p => shownSet.has(p.date) ? (p.correct ? '#76b900' : '#e6483f') : 'transparent');
+  const pointStyles = allPreds.map(p => p.predicted === 1 ? 'triangle' : 'rectRot');
+  const pointRadii = allPreds.map(p => shownSet.has(p.date) ? 6 : 0);
+
+  if(priceChartInstance) priceChartInstance.destroy();
+
+  priceChartInstance = new Chart(ctx, {
     type: 'line',
     data: {
       labels,
       datasets: [{
         label: 'Close',
         data: closes,
-        borderColor: '#7c9cff',
-        backgroundColor: 'rgba(124,156,255,0.08)',
+        borderColor: '#76b900',
+        backgroundColor: 'rgba(118,185,0,0.06)',
         borderWidth: 2,
         tension: 0.25,
         pointBackgroundColor: pointColors,
         pointBorderColor: pointColors,
         pointStyle: pointStyles,
-        pointRadius: 6,
+        pointRadius: pointRadii,
         pointHoverRadius: 8,
         fill: true,
       }]
@@ -168,8 +244,8 @@ function renderPriceChart(preds){
     options: {
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: '#8d96a8', maxRotation: 60, minRotation: 60 }, grid: { color: '#1f2530' } },
-        y: { ticks: { color: '#8d96a8' }, grid: { color: '#1f2530' } }
+        x: { ticks: { color: '#9a9a9a', maxRotation: 60, minRotation: 60 }, grid: { color: '#262626' } },
+        y: { ticks: { color: '#9a9a9a' }, grid: { color: '#262626' } }
       }
     }
   });
@@ -185,50 +261,154 @@ function renderSentimentChart(trend){
       datasets: [
         {
           type: 'line', label: 'Avg compound', data: trend.map(d => d.avg_compound),
-          borderColor: '#7c9cff', backgroundColor: '#7c9cff', yAxisID: 'y1', tension: .25, pointRadius: 2, borderWidth: 2,
+          borderColor: '#76b900', backgroundColor: '#76b900', yAxisID: 'y1', tension: .25, pointRadius: 2, borderWidth: 2,
         },
-        { label: 'Positive', data: trend.map(d => d.positive), backgroundColor: 'rgba(52,211,153,0.55)', stack: 's' },
-        { label: 'Negative', data: trend.map(d => d.negative), backgroundColor: 'rgba(251,113,133,0.55)', stack: 's' },
-        { label: 'Neutral',  data: trend.map(d => d.neutral),  backgroundColor: 'rgba(141,150,168,0.35)', stack: 's' },
+        { label: 'Positive', data: trend.map(d => d.positive), backgroundColor: 'rgba(118,185,0,0.55)', stack: 's' },
+        { label: 'Negative', data: trend.map(d => d.negative), backgroundColor: 'rgba(230,72,63,0.55)', stack: 's' },
+        { label: 'Neutral',  data: trend.map(d => d.neutral),  backgroundColor: 'rgba(154,154,154,0.30)', stack: 's' },
       ]
     },
     options: {
-      plugins: { legend: { labels: { color: '#8d96a8', font: { size: 11 } } } },
+      plugins: { legend: { labels: { color: '#9a9a9a', font: { size: 11 } } } },
       scales: {
-        x: { ticks: { color: '#8d96a8', maxRotation: 60, minRotation: 60 }, grid: { display: false } },
-        y: { stacked: true, ticks: { color: '#8d96a8' }, grid: { color: '#1f2530' } },
-        y1: { position: 'right', ticks: { color: '#8d96a8' }, grid: { display: false } }
+        x: { ticks: { color: '#9a9a9a', maxRotation: 60, minRotation: 60 }, grid: { display: false } },
+        y: { stacked: true, ticks: { color: '#9a9a9a' }, grid: { color: '#262626' } },
+        y1: { position: 'right', ticks: { color: '#9a9a9a' }, grid: { display: false } }
       }
     }
   });
 }
 
-function renderTable(preds){
-  if(!preds.length) return;
+function renderSentimentDonut(trend){
+  const totals = trend.reduce((acc, d) => {
+    acc.positive += d.positive; acc.negative += d.negative; acc.neutral += d.neutral;
+    return acc;
+  }, { positive: 0, negative: 0, neutral: 0 });
+  const total = totals.positive + totals.negative + totals.neutral;
+
+  new Chart(document.getElementById('sentimentDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Positive', 'Negative', 'Neutral'],
+      datasets: [{
+        data: [totals.positive, totals.negative, totals.neutral],
+        backgroundColor: ['#76b900', '#e6483f', '#3a3a3a'],
+        borderColor: '#121212', borderWidth: 2,
+      }]
+    },
+    options: { plugins: { legend: { display: false } }, cutout: '68%' }
+  });
+
+  const items = [
+    { label: 'Positive', n: totals.positive, color: '#76b900' },
+    { label: 'Negative', n: totals.negative, color: '#e6483f' },
+    { label: 'Neutral',  n: totals.neutral,  color: '#9a9a9a' },
+  ];
+  document.getElementById('sentimentTotals').innerHTML = items.map(it => `
+    <span><span class="dot" style="background:${it.color}"></span>${it.label}: ${it.n} (${total ? (it.n/total*100).toFixed(1) : 0}%)</span>
+  `).join('');
+}
+
+function sortPreds(preds){
+  const { key, dir } = sortState;
+  return [...preds].sort((a, b) => {
+    let av = a[key], bv = b[key];
+    if(typeof av === 'string') return av.localeCompare(bv) * dir;
+    return (av - bv) * dir;
+  });
+}
+
+function applyTableFilter(preds){
+  let out = preds;
+  if(tableFilter === 'up') out = out.filter(p => p.predicted === 1);
+  if(tableFilter === 'down') out = out.filter(p => p.predicted === 0);
+  if(tableFilter === 'correct') out = out.filter(p => p.correct);
+  if(tableFilter === 'wrong') out = out.filter(p => !p.correct);
+  const q = document.getElementById('dateSearch').value.trim();
+  if(q) out = out.filter(p => p.date.includes(q));
+  return out;
+}
+
+function renderTable(){
+  if(!DATA) return;
+  let preds = applyTableFilter(DATA.predictions);
+  preds = sortPreds(preds);
+
+  if(!preds.length){
+    document.getElementById('tableWrap').innerHTML = `<p class="empty">No rows match the current filter.</p>`;
+    document.getElementById('rowCount').textContent = '';
+    return;
+  }
+
   const rows = preds.map(p => `
     <tr>
       <td class="mono">${p.date}</td>
       <td class="mono">${p.close.toFixed(2)}</td>
-      <td><span class="pill ${p.predicted ? 'up' : 'down'}">${p.predicted ? 'UP' : 'DOWN'}</span></td>
-      <td><span class="pill ${p.actual ? 'up' : 'down'}">${p.actual ? 'UP' : 'DOWN'}</span></td>
-      <td class="mono">${(p.probability_up*100).toFixed(1)}%</td>
+      <td><span class="pill ${p.predicted ? 'up' : 'down'}">${p.predicted ? '▲ UP' : '▼ DOWN'}</span></td>
+      <td><span class="pill ${p.actual ? 'up' : 'down'}">${p.actual ? '▲ UP' : '▼ DOWN'}</span></td>
+      <td>
+        <div class="conf-bar">
+          <span class="mono">${(p.probability_up*100).toFixed(1)}%</span>
+          <div class="conf-track"><div class="conf-fill" style="width:${(p.probability_up*100).toFixed(0)}%"></div></div>
+        </div>
+      </td>
       <td><span class="pill ${p.correct ? 'correct' : 'wrong'}">${p.correct ? '✓ correct' : '✗ wrong'}</span></td>
     </tr>`).join('');
 
   document.getElementById('tableWrap').innerHTML = `
     <table>
-      <thead><tr><th>Date</th><th>Close</th><th>Predicted</th><th>Actual</th><th>Confidence (up)</th><th>Result</th></tr></thead>
+      <thead><tr>
+        <th data-key="date">Date</th>
+        <th data-key="close">Close</th>
+        <th data-key="predicted">Predicted</th>
+        <th data-key="actual">Actual</th>
+        <th data-key="probability_up">Confidence (up)</th>
+        <th data-key="correct">Result</th>
+      </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
+  document.getElementById('rowCount').textContent = `${preds.length} of ${DATA.predictions.length} days shown`;
+
+  document.querySelectorAll('#tableWrap th').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      sortState.dir = (sortState.key === key) ? -sortState.dir : 1;
+      sortState.key = key;
+      renderTable();
+    });
+  });
+}
+
+function wireControls(){
+  document.querySelectorAll('[data-tablefilter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-tablefilter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      tableFilter = btn.dataset.tablefilter;
+      renderTable();
+    });
+  });
+  document.querySelectorAll('[data-pricefilter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-pricefilter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      priceFilter = btn.dataset.pricefilter;
+      renderPriceChart(DATA.predictions);
+    });
+  });
+  document.getElementById('dateSearch').addEventListener('input', renderTable);
 }
 
 (async function init(){
   const data = await loadData();
   if(!data) return;
+  DATA = data;
   renderStats(data.metrics);
   renderPriceChart(data.predictions);
   renderSentimentChart(data.sentiment_trend);
-  renderTable(data.predictions);
+  renderSentimentDonut(data.sentiment_trend);
+  renderTable();
+  wireControls();
 })();
 </script>
 

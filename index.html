@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVDA Sentiment Signal — Hybrid LSTM+RF Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #0b0e14;
+    --panel: #11151d;
+    --line: #1f2530;
+    --ink: #e8ebf0;
+    --ink-dim: #8d96a8;
+    --signal: #34d399;   /* up / correct */
+    --alert: #fb7185;    /* down / incorrect */
+    --accent: #7c9cff;   /* neutral accent */
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  }
+  .mono{ font-family:'IBM Plex Mono', 'SF Mono', Consolas, monospace; }
+
+  header{
+    padding:36px 40px 24px; border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 10px;
+  }
+  h1{ font-size:30px; margin:0 0 8px; font-weight:600; letter-spacing:-.01em;}
+  .sub{ color:var(--ink-dim); font-size:14px; max-width:640px; }
+
+  main{ padding:28px 40px 60px; display:grid; gap:24px; }
+
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:18px 20px;
+  }
+  .stat .label{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-dim); margin-bottom:8px;}
+  .stat .value{ font-family:'IBM Plex Mono', monospace; font-size:26px; font-weight:600; }
+  .stat .value.up{ color:var(--signal); }
+  .stat .value.down{ color:var(--alert); }
+
+  .panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:22px 24px;
+  }
+  .panel h2{ font-size:15px; margin:0 0 4px; font-weight:600; }
+  .panel .desc{ font-size:12.5px; color:var(--ink-dim); margin:0 0 16px; }
+  canvas{ max-height:320px; }
+
+  .legend{ display:flex; gap:18px; font-size:12px; color:var(--ink-dim); margin-top:10px; }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  th, td{ text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); }
+  th{ color:var(--ink-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:500;}
+  td.mono{ font-family:'IBM Plex Mono', monospace; }
+  .pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:11.5px; font-weight:600; }
+  .pill.up{ background:rgba(52,211,153,.14); color:var(--signal); }
+  .pill.down{ background:rgba(251,113,133,.14); color:var(--alert); }
+  .pill.correct{ color:var(--signal); }
+  .pill.wrong{ color:var(--alert); }
+
+  .empty{ color:var(--ink-dim); font-size:13px; padding:20px 0; }
+
+  @media (max-width:880px){
+    .stat-row{ grid-template-columns:repeat(2,1fr); }
+    header, main{ padding-left:20px; padding-right:20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">NVDA · Twitter Sentiment → Price Direction</p>
+  <h1>Sentiment Signal Dashboard</h1>
+  <p class="sub">Daily NVIDIA tweet sentiment fed through a hybrid model — an LSTM extracts temporal sentiment features, a Random Forest turns them into a next-day price direction call.</p>
+</header>
+
+<main>
+
+  <div class="stat-row" id="statRow">
+    <div class="stat"><div class="label">Test accuracy</div><div class="value mono" id="statAcc">—</div></div>
+    <div class="stat"><div class="label">Precision</div><div class="value mono" id="statPrec">—</div></div>
+    <div class="stat"><div class="label">Recall</div><div class="value mono" id="statRec">—</div></div>
+    <div class="stat"><div class="label">F1 score</div><div class="value mono" id="statF1">—</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Price vs. predicted direction</h2>
+    <p class="desc">Closing price on the test period, marked where the model called the next day up or down. Color shows whether the call was correct.</p>
+    <canvas id="priceChart"></canvas>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--signal)"></span>Correct call</span>
+      <span><span class="dot" style="background:var(--alert)"></span>Incorrect call</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Sentiment trend</h2>
+    <p class="desc">Average daily VADER compound score and tweet volume split by polarity.</p>
+    <canvas id="sentimentChart"></canvas>
+  </div>
+
+  <div class="panel">
+    <h2>Prediction log</h2>
+    <p class="desc">Every test-set day: model call, actual outcome, and confidence.</p>
+    <div id="tableWrap"><p class="empty">Loading…</p></div>
+  </div>
+
+</main>
+
+<script>
+const FALLBACK_NOTICE = `<p class="empty">No data.json found yet. Run train_model_fixed.py to generate it, then place data.json next to this index.html before publishing to GitHub Pages.</p>`;
+
+async function loadData(){
+  try{
+    const res = await fetch('data.json');
+    if(!res.ok) throw new Error('not found');
+    return await res.json();
+  }catch(e){
+    document.getElementById('tableWrap').innerHTML = FALLBACK_NOTICE;
+    return null;
+  }
+}
+
+function pct(x){ return (x*100).toFixed(1) + '%'; }
+
+function renderStats(m){
+  document.getElementById('statAcc').textContent  = pct(m.accuracy);
+  document.getElementById('statPrec').textContent = pct(m.precision);
+  document.getElementById('statRec').textContent  = pct(m.recall);
+  document.getElementById('statF1').textContent   = pct(m.f1);
+}
+
+function renderPriceChart(preds){
+  const ctx = document.getElementById('priceChart');
+  const labels = preds.map(p => p.date);
+  const closes = preds.map(p => p.close);
+  const pointColors = preds.map(p => p.correct ? '#34d399' : '#fb7185');
+  const pointStyles = preds.map(p => p.predicted === 1 ? 'triangle' : 'rectRot');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Close',
+        data: closes,
+        borderColor: '#7c9cff',
+        backgroundColor: 'rgba(124,156,255,0.08)',
+        borderWidth: 2,
+        tension: 0.25,
+        pointBackgroundColor: pointColors,
+        pointBorderColor: pointColors,
+        pointStyle: pointStyles,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        fill: true,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#8d96a8', maxRotation: 60, minRotation: 60 }, grid: { color: '#1f2530' } },
+        y: { ticks: { color: '#8d96a8' }, grid: { color: '#1f2530' } }
+      }
+    }
+  });
+}
+
+function renderSentimentChart(trend){
+  const ctx = document.getElementById('sentimentChart');
+  const labels = trend.map(d => d.Date);
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'line', label: 'Avg compound', data: trend.map(d => d.avg_compound),
+          borderColor: '#7c9cff', backgroundColor: '#7c9cff', yAxisID: 'y1', tension: .25, pointRadius: 2, borderWidth: 2,
+        },
+        { label: 'Positive', data: trend.map(d => d.positive), backgroundColor: 'rgba(52,211,153,0.55)', stack: 's' },
+        { label: 'Negative', data: trend.map(d => d.negative), backgroundColor: 'rgba(251,113,133,0.55)', stack: 's' },
+        { label: 'Neutral',  data: trend.map(d => d.neutral),  backgroundColor: 'rgba(141,150,168,0.35)', stack: 's' },
+      ]
+    },
+    options: {
+      plugins: { legend: { labels: { color: '#8d96a8', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#8d96a8', maxRotation: 60, minRotation: 60 }, grid: { display: false } },
+        y: { stacked: true, ticks: { color: '#8d96a8' }, grid: { color: '#1f2530' } },
+        y1: { position: 'right', ticks: { color: '#8d96a8' }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function renderTable(preds){
+  if(!preds.length) return;
+  const rows = preds.map(p => `
+    <tr>
+      <td class="mono">${p.date}</td>
+      <td class="mono">${p.close.toFixed(2)}</td>
+      <td><span class="pill ${p.predicted ? 'up' : 'down'}">${p.predicted ? 'UP' : 'DOWN'}</span></td>
+      <td><span class="pill ${p.actual ? 'up' : 'down'}">${p.actual ? 'UP' : 'DOWN'}</span></td>
+      <td class="mono">${(p.probability_up*100).toFixed(1)}%</td>
+      <td><span class="pill ${p.correct ? 'correct' : 'wrong'}">${p.correct ? '✓ correct' : '✗ wrong'}</span></td>
+    </tr>`).join('');
+
+  document.getElementById('tableWrap').innerHTML = `
+    <table>
+      <thead><tr><th>Date</th><th>Close</th><th>Predicted</th><th>Actual</th><th>Confidence (up)</th><th>Result</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+(async function init(){
+  const data = await loadData();
+  if(!data) return;
+  renderStats(data.metrics);
+  renderPriceChart(data.predictions);
+  renderSentimentChart(data.sentiment_trend);
+  renderTable(data.predictions);
+})();
+</script>
+
+</body>
+</html>

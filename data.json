@@ -1,0 +1,800 @@
+{
+  "generated_at": "2026-06-22T07:22:57.983784",
+  "model": "Hybrid LSTM (feature extractor) + Random Forest",
+  "sequence_length": 5,
+  "metrics": {
+    "accuracy": 0.8888888888888888,
+    "precision": 1.0,
+    "recall": 0.8333333333333334,
+    "f1": 0.9090909090909091,
+    "confusion_matrix": [
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "n_test": 9
+  },
+  "sentiment_trend": [
+    {
+      "Date": "2022-11-21",
+      "avg_compound": 0.19710678733031675,
+      "sentiment_score": 0.34992458521870284,
+      "positive": 323,
+      "negative": 91,
+      "neutral": 249,
+      "total_tweets": 663
+    },
+    {
+      "Date": "2022-11-22",
+      "avg_compound": 0.20548934368383912,
+      "sentiment_score": 0.4191954834156669,
+      "positive": 738,
+      "negative": 144,
+      "neutral": 535,
+      "total_tweets": 1417
+    },
+    {
+      "Date": "2022-11-23",
+      "avg_compound": 0.22626311818943837,
+      "sentiment_score": 0.4300083822296731,
+      "positive": 617,
+      "negative": 104,
+      "neutral": 472,
+      "total_tweets": 1193
+    },
+    {
+      "Date": "2022-11-24",
+      "avg_compound": 0.23749671574178935,
+      "sentiment_score": 0.46998867497168745,
+      "positive": 508,
+      "negative": 93,
+      "neutral": 282,
+      "total_tweets": 883
+    },
+    {
+      "Date": "2022-11-25",
+      "avg_compound": 0.2232291560102302,
+      "sentiment_score": 0.44501278772378516,
+      "positive": 431,
+      "negative": 83,
+      "neutral": 268,
+      "total_tweets": 782
+    },
+    {
+      "Date": "2022-11-26",
+      "avg_compound": 0.1801479365079365,
+      "sentiment_score": 0.3634920634920635,
+      "positive": 309,
+      "negative": 80,
+      "neutral": 241,
+      "total_tweets": 630
+    },
+    {
+      "Date": "2022-11-27",
+      "avg_compound": 0.21205103092783506,
+      "sentiment_score": 0.4420103092783505,
+      "positive": 444,
+      "negative": 101,
+      "neutral": 231,
+      "total_tweets": 776
+    },
+    {
+      "Date": "2022-11-28",
+      "avg_compound": 0.2162524914089347,
+      "sentiment_score": 0.4475945017182131,
+      "positive": 670,
+      "negative": 149,
+      "neutral": 345,
+      "total_tweets": 1164
+    },
+    {
+      "Date": "2022-11-29",
+      "avg_compound": 0.20405148179508892,
+      "sentiment_score": 0.38018628281117695,
+      "positive": 638,
+      "negative": 189,
+      "neutral": 354,
+      "total_tweets": 1181
+    },
+    {
+      "Date": "2022-11-30",
+      "avg_compound": 0.18085424242424242,
+      "sentiment_score": 0.3621212121212121,
+      "positive": 674,
+      "negative": 196,
+      "neutral": 450,
+      "total_tweets": 1320
+    },
+    {
+      "Date": "2022-12-01",
+      "avg_compound": 0.22291662591687042,
+      "sentiment_score": 0.460880195599022,
+      "positive": 942,
+      "negative": 188,
+      "neutral": 506,
+      "total_tweets": 1636
+    },
+    {
+      "Date": "2022-12-02",
+      "avg_compound": 0.22556017823639773,
+      "sentiment_score": 0.48827392120075047,
+      "positive": 1280,
+      "negative": 239,
+      "neutral": 613,
+      "total_tweets": 2132
+    },
+    {
+      "Date": "2022-12-03",
+      "avg_compound": 0.23967077409162718,
+      "sentiment_score": 0.5718799368088467,
+      "positive": 829,
+      "negative": 105,
+      "neutral": 332,
+      "total_tweets": 1266
+    },
+    {
+      "Date": "2022-12-04",
+      "avg_compound": 0.1789194993412385,
+      "sentiment_score": 0.310935441370224,
+      "positive": 409,
+      "negative": 173,
+      "neutral": 177,
+      "total_tweets": 759
+    },
+    {
+      "Date": "2022-12-05",
+      "avg_compound": 0.1786551811288964,
+      "sentiment_score": 0.38584667228306657,
+      "positive": 608,
+      "negative": 150,
+      "neutral": 429,
+      "total_tweets": 1187
+    },
+    {
+      "Date": "2022-12-06",
+      "avg_compound": 0.19919217081850535,
+      "sentiment_score": 0.4106761565836299,
+      "positive": 774,
+      "negative": 197,
+      "neutral": 434,
+      "total_tweets": 1405
+    },
+    {
+      "Date": "2022-12-07",
+      "avg_compound": 0.20487332402234637,
+      "sentiment_score": 0.4168994413407821,
+      "positive": 806,
+      "negative": 209,
+      "neutral": 417,
+      "total_tweets": 1432
+    },
+    {
+      "Date": "2022-12-08",
+      "avg_compound": 0.19799838969404185,
+      "sentiment_score": 0.4106280193236715,
+      "positive": 1004,
+      "negative": 239,
+      "neutral": 620,
+      "total_tweets": 1863
+    },
+    {
+      "Date": "2022-12-09",
+      "avg_compound": 0.21965030985915493,
+      "sentiment_score": 0.41859154929577463,
+      "positive": 996,
+      "negative": 253,
+      "neutral": 526,
+      "total_tweets": 1775
+    },
+    {
+      "Date": "2022-12-10",
+      "avg_compound": 0.26108478723404255,
+      "sentiment_score": 0.524468085106383,
+      "positive": 606,
+      "negative": 113,
+      "neutral": 221,
+      "total_tweets": 940
+    },
+    {
+      "Date": "2022-12-11",
+      "avg_compound": 0.25007453416149067,
+      "sentiment_score": 0.5006211180124224,
+      "positive": 531,
+      "negative": 128,
+      "neutral": 146,
+      "total_tweets": 805
+    },
+    {
+      "Date": "2022-12-12",
+      "avg_compound": 0.20054986338797814,
+      "sentiment_score": 0.4098360655737705,
+      "positive": 787,
+      "negative": 187,
+      "neutral": 490,
+      "total_tweets": 1464
+    },
+    {
+      "Date": "2022-12-13",
+      "avg_compound": 0.20525674448767833,
+      "sentiment_score": 0.4150453955901427,
+      "positive": 864,
+      "negative": 224,
+      "neutral": 454,
+      "total_tweets": 1542
+    },
+    {
+      "Date": "2022-12-14",
+      "avg_compound": 0.24653485388453314,
+      "sentiment_score": 0.4483250178189594,
+      "positive": 805,
+      "negative": 176,
+      "neutral": 422,
+      "total_tweets": 1403
+    },
+    {
+      "Date": "2022-12-15",
+      "avg_compound": 0.21801056860321386,
+      "sentiment_score": 0.4264524103831891,
+      "positive": 892,
+      "negative": 202,
+      "neutral": 524,
+      "total_tweets": 1618
+    },
+    {
+      "Date": "2022-12-16",
+      "avg_compound": 0.20985451070336394,
+      "sentiment_score": 0.40519877675840976,
+      "positive": 715,
+      "negative": 185,
+      "neutral": 408,
+      "total_tweets": 1308
+    },
+    {
+      "Date": "2022-12-17",
+      "avg_compound": 0.19723899159663866,
+      "sentiment_score": 0.44201680672268906,
+      "positive": 343,
+      "negative": 80,
+      "neutral": 172,
+      "total_tweets": 595
+    },
+    {
+      "Date": "2022-12-18",
+      "avg_compound": 0.20259986666666668,
+      "sentiment_score": 0.47733333333333333,
+      "positive": 451,
+      "negative": 93,
+      "neutral": 206,
+      "total_tweets": 750
+    },
+    {
+      "Date": "2022-12-19",
+      "avg_compound": 0.21459977711738484,
+      "sentiment_score": 0.46285289747399705,
+      "positive": 791,
+      "negative": 168,
+      "neutral": 387,
+      "total_tweets": 1346
+    },
+    {
+      "Date": "2022-12-20",
+      "avg_compound": 0.22298549723756905,
+      "sentiment_score": 0.4958563535911602,
+      "positive": 906,
+      "negative": 188,
+      "neutral": 354,
+      "total_tweets": 1448
+    },
+    {
+      "Date": "2022-12-21",
+      "avg_compound": 0.23362488448844887,
+      "sentiment_score": 0.49504950495049505,
+      "positive": 941,
+      "negative": 191,
+      "neutral": 383,
+      "total_tweets": 1515
+    },
+    {
+      "Date": "2022-12-22",
+      "avg_compound": 0.1799726534753932,
+      "sentiment_score": 0.3815322171486555,
+      "positive": 1030,
+      "negative": 278,
+      "neutral": 663,
+      "total_tweets": 1971
+    },
+    {
+      "Date": "2022-12-23",
+      "avg_compound": 0.26846368909512763,
+      "sentiment_score": 0.5046403712296984,
+      "positive": 1050,
+      "negative": 180,
+      "neutral": 494,
+      "total_tweets": 1724
+    },
+    {
+      "Date": "2022-12-24",
+      "avg_compound": 0.1728250505050505,
+      "sentiment_score": 0.5151515151515151,
+      "positive": 301,
+      "negative": 46,
+      "neutral": 148,
+      "total_tweets": 495
+    },
+    {
+      "Date": "2022-12-25",
+      "avg_compound": 0.27316401179941,
+      "sentiment_score": 0.5398230088495575,
+      "positive": 445,
+      "negative": 79,
+      "neutral": 154,
+      "total_tweets": 678
+    },
+    {
+      "Date": "2022-12-26",
+      "avg_compound": 0.23041218323586746,
+      "sentiment_score": 0.5116959064327485,
+      "positive": 640,
+      "negative": 115,
+      "neutral": 271,
+      "total_tweets": 1026
+    },
+    {
+      "Date": "2022-12-27",
+      "avg_compound": 0.19065911751463308,
+      "sentiment_score": 0.3836109860423233,
+      "positive": 1162,
+      "negative": 310,
+      "neutral": 749,
+      "total_tweets": 2221
+    },
+    {
+      "Date": "2022-12-28",
+      "avg_compound": 0.21117354085603113,
+      "sentiment_score": 0.42412451361867703,
+      "positive": 1134,
+      "negative": 262,
+      "neutral": 660,
+      "total_tweets": 2056
+    },
+    {
+      "Date": "2022-12-29",
+      "avg_compound": 0.18701628721541155,
+      "sentiment_score": 0.4173963806187974,
+      "positive": 933,
+      "negative": 218,
+      "neutral": 562,
+      "total_tweets": 1713
+    },
+    {
+      "Date": "2022-12-30",
+      "avg_compound": 0.22482141453831042,
+      "sentiment_score": 0.46037982973149966,
+      "positive": 903,
+      "negative": 200,
+      "neutral": 424,
+      "total_tweets": 1527
+    },
+    {
+      "Date": "2022-12-31",
+      "avg_compound": 0.21983894628099174,
+      "sentiment_score": 0.5072314049586777,
+      "positive": 566,
+      "negative": 75,
+      "neutral": 327,
+      "total_tweets": 968
+    },
+    {
+      "Date": "2023-01-01",
+      "avg_compound": 0.2747446666666667,
+      "sentiment_score": 0.5973333333333334,
+      "positive": 523,
+      "negative": 75,
+      "neutral": 152,
+      "total_tweets": 750
+    },
+    {
+      "Date": "2023-01-02",
+      "avg_compound": 0.25835224880382773,
+      "sentiment_score": 0.5933014354066986,
+      "positive": 706,
+      "negative": 86,
+      "neutral": 253,
+      "total_tweets": 1045
+    },
+    {
+      "Date": "2023-01-03",
+      "avg_compound": 0.17489390615478367,
+      "sentiment_score": 0.39488117001828155,
+      "positive": 805,
+      "negative": 157,
+      "neutral": 679,
+      "total_tweets": 1641
+    },
+    {
+      "Date": "2023-01-04",
+      "avg_compound": 0.1902544071020926,
+      "sentiment_score": 0.4394419784400761,
+      "positive": 856,
+      "negative": 163,
+      "neutral": 558,
+      "total_tweets": 1577
+    },
+    {
+      "Date": "2023-01-05",
+      "avg_compound": 0.19694613350958362,
+      "sentiment_score": 0.4514210178453404,
+      "positive": 844,
+      "negative": 161,
+      "neutral": 508,
+      "total_tweets": 1513
+    },
+    {
+      "Date": "2023-01-06",
+      "avg_compound": 0.19981546184738955,
+      "sentiment_score": 0.4497991967871486,
+      "positive": 835,
+      "negative": 163,
+      "neutral": 496,
+      "total_tweets": 1494
+    },
+    {
+      "Date": "2023-01-07",
+      "avg_compound": 0.2137840840840841,
+      "sentiment_score": 0.521021021021021,
+      "positive": 405,
+      "negative": 58,
+      "neutral": 203,
+      "total_tweets": 666
+    },
+    {
+      "Date": "2023-01-08",
+      "avg_compound": 0.21522549019607842,
+      "sentiment_score": 0.49019607843137253,
+      "positive": 410,
+      "negative": 60,
+      "neutral": 244,
+      "total_tweets": 714
+    },
+    {
+      "Date": "2023-01-09",
+      "avg_compound": 0.1979411994784876,
+      "sentiment_score": 0.4230769230769231,
+      "positive": 804,
+      "negative": 155,
+      "neutral": 575,
+      "total_tweets": 1534
+    },
+    {
+      "Date": "2023-01-10",
+      "avg_compound": 0.21420364789849325,
+      "sentiment_score": 0.4853291038858049,
+      "positive": 749,
+      "negative": 137,
+      "neutral": 375,
+      "total_tweets": 1261
+    },
+    {
+      "Date": "2023-01-11",
+      "avg_compound": 0.2103118208516887,
+      "sentiment_score": 0.46916299559471364,
+      "positive": 806,
+      "negative": 167,
+      "neutral": 389,
+      "total_tweets": 1362
+    },
+    {
+      "Date": "2023-01-12",
+      "avg_compound": 0.19545477987421384,
+      "sentiment_score": 0.4408805031446541,
+      "positive": 889,
+      "negative": 188,
+      "neutral": 513,
+      "total_tweets": 1590
+    },
+    {
+      "Date": "2023-01-13",
+      "avg_compound": 0.19565093167701864,
+      "sentiment_score": 0.4114906832298137,
+      "positive": 689,
+      "negative": 159,
+      "neutral": 440,
+      "total_tweets": 1288
+    },
+    {
+      "Date": "2023-01-14",
+      "avg_compound": 0.18811902439024392,
+      "sentiment_score": 0.5170731707317073,
+      "positive": 373,
+      "negative": 55,
+      "neutral": 187,
+      "total_tweets": 615
+    },
+    {
+      "Date": "2023-01-15",
+      "avg_compound": 0.2370212401055409,
+      "sentiment_score": 0.5686015831134564,
+      "positive": 482,
+      "negative": 51,
+      "neutral": 225,
+      "total_tweets": 758
+    },
+    {
+      "Date": "2023-01-16",
+      "avg_compound": 0.2581584,
+      "sentiment_score": 0.5531428571428572,
+      "positive": 558,
+      "negative": 74,
+      "neutral": 243,
+      "total_tweets": 875
+    },
+    {
+      "Date": "2023-01-17",
+      "avg_compound": 0.1973558912386707,
+      "sentiment_score": 0.42779456193353477,
+      "positive": 894,
+      "negative": 186,
+      "neutral": 575,
+      "total_tweets": 1655
+    },
+    {
+      "Date": "2023-01-18",
+      "avg_compound": 0.21723966101694914,
+      "sentiment_score": 0.46983050847457625,
+      "positive": 844,
+      "negative": 151,
+      "neutral": 480,
+      "total_tweets": 1475
+    },
+    {
+      "Date": "2023-01-19",
+      "avg_compound": 0.19863444444444445,
+      "sentiment_score": 0.4562962962962963,
+      "positive": 773,
+      "negative": 157,
+      "neutral": 420,
+      "total_tweets": 1350
+    },
+    {
+      "Date": "2023-01-20",
+      "avg_compound": 0.20760298034242233,
+      "sentiment_score": 0.4457831325301205,
+      "positive": 879,
+      "negative": 176,
+      "neutral": 522,
+      "total_tweets": 1577
+    },
+    {
+      "Date": "2023-01-21",
+      "avg_compound": 0.20168653555219362,
+      "sentiment_score": 0.4947049924357035,
+      "positive": 387,
+      "negative": 60,
+      "neutral": 214,
+      "total_tweets": 661
+    },
+    {
+      "Date": "2023-01-22",
+      "avg_compound": 0.22830343137254902,
+      "sentiment_score": 0.5134803921568627,
+      "positive": 484,
+      "negative": 65,
+      "neutral": 267,
+      "total_tweets": 816
+    },
+    {
+      "Date": "2023-01-23",
+      "avg_compound": 0.17032371541501978,
+      "sentiment_score": 0.35353535353535354,
+      "positive": 1061,
+      "negative": 256,
+      "neutral": 960,
+      "total_tweets": 2277
+    },
+    {
+      "Date": "2023-01-24",
+      "avg_compound": 0.19864019111860595,
+      "sentiment_score": 0.4176503653738055,
+      "positive": 938,
+      "negative": 195,
+      "neutral": 646,
+      "total_tweets": 1779
+    },
+    {
+      "Date": "2023-01-25",
+      "avg_compound": 0.18471266912669126,
+      "sentiment_score": 0.3862238622386224,
+      "positive": 818,
+      "negative": 190,
+      "neutral": 618,
+      "total_tweets": 1626
+    },
+    {
+      "Date": "2023-01-26",
+      "avg_compound": 0.1913128009395185,
+      "sentiment_score": 0.3623018203170875,
+      "positive": 844,
+      "negative": 227,
+      "neutral": 632,
+      "total_tweets": 1703
+    },
+    {
+      "Date": "2023-01-27",
+      "avg_compound": 0.1727363784665579,
+      "sentiment_score": 0.3349646547036433,
+      "positive": 908,
+      "negative": 292,
+      "neutral": 639,
+      "total_tweets": 1839
+    },
+    {
+      "Date": "2023-01-28",
+      "avg_compound": 0.20469953379953382,
+      "sentiment_score": 0.49417249417249415,
+      "positive": 507,
+      "negative": 83,
+      "neutral": 268,
+      "total_tweets": 858
+    },
+    {
+      "Date": "2023-01-29",
+      "avg_compound": 0.23124048640915595,
+      "sentiment_score": 0.51931330472103,
+      "positive": 423,
+      "negative": 60,
+      "neutral": 216,
+      "total_tweets": 699
+    },
+    {
+      "Date": "2023-01-30",
+      "avg_compound": 0.21812991880074953,
+      "sentiment_score": 0.4316052467207995,
+      "positive": 865,
+      "negative": 174,
+      "neutral": 562,
+      "total_tweets": 1601
+    },
+    {
+      "Date": "2023-01-31",
+      "avg_compound": 0.21947398022249692,
+      "sentiment_score": 0.453646477132262,
+      "positive": 928,
+      "negative": 194,
+      "neutral": 496,
+      "total_tweets": 1618
+    },
+    {
+      "Date": "2023-02-01",
+      "avg_compound": 0.20252772523643603,
+      "sentiment_score": 0.4250871080139373,
+      "positive": 1053,
+      "negative": 199,
+      "neutral": 757,
+      "total_tweets": 2009
+    },
+    {
+      "Date": "2023-02-02",
+      "avg_compound": 0.20697325779036826,
+      "sentiment_score": 0.4294617563739377,
+      "positive": 960,
+      "negative": 202,
+      "neutral": 603,
+      "total_tweets": 1765
+    },
+    {
+      "Date": "2023-02-03",
+      "avg_compound": 0.18736087580760946,
+      "sentiment_score": 0.3962670495333812,
+      "positive": 708,
+      "negative": 156,
+      "neutral": 529,
+      "total_tweets": 1393
+    },
+    {
+      "Date": "2023-02-04",
+      "avg_compound": 0.18565776315789473,
+      "sentiment_score": 0.45921052631578946,
+      "positive": 421,
+      "negative": 72,
+      "neutral": 267,
+      "total_tweets": 760
+    },
+    {
+      "Date": "2023-02-05",
+      "avg_compound": 0.19938308977035493,
+      "sentiment_score": 0.44676409185803756,
+      "positive": 511,
+      "negative": 83,
+      "neutral": 364,
+      "total_tweets": 958
+    },
+    {
+      "Date": "2023-02-06",
+      "avg_compound": 0.19857888198757764,
+      "sentiment_score": 0.4472049689440994,
+      "positive": 178,
+      "negative": 34,
+      "neutral": 110,
+      "total_tweets": 322
+    }
+  ],
+  "predictions": [
+    {
+      "date": "2023-01-24",
+      "close": 19.264999,
+      "actual": 1,
+      "predicted": 1,
+      "probability_up": 0.505,
+      "correct": true
+    },
+    {
+      "date": "2023-01-25",
+      "close": 19.323,
+      "actual": 1,
+      "predicted": 1,
+      "probability_up": 0.505,
+      "correct": true
+    },
+    {
+      "date": "2023-01-26",
+      "close": 19.802,
+      "actual": 1,
+      "predicted": 1,
+      "probability_up": 0.595,
+      "correct": true
+    },
+    {
+      "date": "2023-01-27",
+      "close": 20.365,
+      "actual": 0,
+      "predicted": 0,
+      "probability_up": 0.385,
+      "correct": true
+    },
+    {
+      "date": "2023-01-30",
+      "close": 19.162001,
+      "actual": 1,
+      "predicted": 0,
+      "probability_up": 0.385,
+      "correct": false
+    },
+    {
+      "date": "2023-01-31",
+      "close": 19.537001,
+      "actual": 1,
+      "predicted": 1,
+      "probability_up": 0.535,
+      "correct": true
+    },
+    {
+      "date": "2023-02-01",
+      "close": 20.943001,
+      "actual": 1,
+      "predicted": 1,
+      "probability_up": 0.615,
+      "correct": true
+    },
+    {
+      "date": "2023-02-02",
+      "close": 21.709,
+      "actual": 0,
+      "predicted": 0,
+      "probability_up": 0.16,
+      "correct": true
+    },
+    {
+      "date": "2023-02-03",
+      "close": 21.1,
+      "actual": 0,
+      "predicted": 0,
+      "probability_up": 0.34,
+      "correct": true
+    }
+  ]
+}

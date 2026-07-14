@@ -175,9 +175,9 @@ If you find this work useful for your research, please cite:
 
 ## 🙏 Acknowledgments
 
-Big Data Lab, Information Systems Study Program, Universitas Multimedia Nusantara (UMN) — for research support and facilities.
-Dataset providers on Kaggle — NVIDIA Tweets and NVDA stock price datasets.
-NLTK VADER — for open-source lexicon-based sentiment analysis.
+1. Big Data Lab, Information Systems Study Program, Universitas Multimedia Nusantara (UMN) — for research support and facilities.
+2. Dataset providers on Kaggle — NVIDIA Tweets and NVDA stock price datasets.
+
 ---
 
 ## 📧 Contact

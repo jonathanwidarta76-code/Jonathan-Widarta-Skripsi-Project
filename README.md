@@ -41,8 +41,6 @@ Proof-of-Concept Deployment: A fully static, server-free dashboard deployed on G
 ## Project Architecture / Research Workflow
 The research follows the CRISP-DM (Cross-Industry Standard Process for Data Mining) framework:
 
-
-
 ## 🚀 Installation
 
 ### Requirements
@@ -79,8 +77,8 @@ nltk.download('punkt_tab')
 ### Name of The Dataset
 
 Dataset Overview :
-A. NVIDIA Tweets ( Source ： Kaggle )
-B. NVIDIA Stock Price ( Source : Kaggle )
+1. NVIDIA Tweets ( Source ： Kaggle )
+2. NVIDIA Stock Price ( Source : Kaggle )
 
 This project uses two secondary datasets obtained from Kaggle. No direct scraping via Twitter API was performed.
 
@@ -91,8 +89,8 @@ This project uses two secondary datasets obtained from Kaggle. No direct scrapin
 **The dataset can be obtained at the link**
 
 Dataset links:
-A. NVIDIA Tweets Dataset — Kaggle : https://www.kaggle.com/datasets/soheiltehranipour/100k-nvidia-tweets
-B. NVDA Stock Price Dataset — Kaggle : https://www.kaggle.com/datasets/programmerrdai/nvidia-stock-historical-data
+1. NVIDIA Tweets Dataset — Kaggle : https://www.kaggle.com/datasets/soheiltehranipour/100k-nvidia-tweets
+2. NVDA Stock Price Dataset — Kaggle : https://www.kaggle.com/datasets/programmerrdai/nvidia-stock-historical-data
 
 Once downloaded, organize the data as follows:
 ```
@@ -108,17 +106,23 @@ Jonathan-Widarta-Skripsi-Project/
 
 ## 🏋️ Training
 
-**Section Description** For big data, explain how to train the model. What to include:
-- Training scripts.
-- Training parameters.
-- Hyperparameters.
-- Execution commands.
-- GPU/CPU requirements.
+Run the full pipeline (preprocessing → training → evaluation → dashboard export):
 
 Example Structure:
 ```bash
-python train.py --config configs/train.yaml
+python train_model_fixed.py
 ```
+This will:
+1. Preprocess and clean tweet text
+2. Score sentiment with VADER
+3. Aggregate to daily sentiment features + lag features
+4. Train the Hybrid LSTM + Random Forest model
+5. Evaluate on the test set (80/20 time-based split)
+6. Save model artifacts:
+- hybrid_lstm_model.keras
+- rf_hybrid.joblib
+- scaler_lstm.joblib
+7. Export data.json for the dashboard
 
 ---
 

@@ -91,8 +91,8 @@ This project uses two secondary datasets obtained from Kaggle. No direct scrapin
 **The dataset can be obtained at the link**
 
 Dataset links:
-NVIDIA Tweets Dataset — Kaggle : https://www.kaggle.com/datasets/soheiltehranipour/100k-nvidia-tweets
-NVDA Stock Price Dataset — Kaggle : https://www.kaggle.com/datasets/programmerrdai/nvidia-stock-historical-data
+A. NVIDIA Tweets Dataset — Kaggle : https://www.kaggle.com/datasets/soheiltehranipour/100k-nvidia-tweets
+B. NVDA Stock Price Dataset — Kaggle : https://www.kaggle.com/datasets/programmerrdai/nvidia-stock-historical-data
 
 Once downloaded, organize the data as follows:
 ```

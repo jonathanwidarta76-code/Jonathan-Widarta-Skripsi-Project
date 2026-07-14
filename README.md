@@ -1,6 +1,4 @@
-# Project Title
-
-Pendekatan Hybrid Machine Learning untuk Prediksi Arah Pergerakan Harga Saham Berbasis Analisis Sentimen Twitter terhadap Saham NVIDIA
+# Pendekatan Hybrid Machine Learning untuk Prediksi Arah Pergerakan Harga Saham Berbasis Analisis Sentimen Twitter terhadap Saham NVIDIA
 
 📄 Thesis: [Laporan Skripsi — Universitas Multimedia Nusantara, 2026]
 

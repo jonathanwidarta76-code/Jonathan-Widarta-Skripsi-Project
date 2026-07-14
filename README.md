@@ -187,7 +187,7 @@ If you find this work useful for your research, please cite:
 
 For questions or issues, please:
 Open an issue on GitHub
-Contact: [your university email]
+Contact: jonathan.widarta1@student.umn.ac.id
 
 ---
 

@@ -1,4 +1,4 @@
-# Pendekatan Hybrid Machine Learning untuk Prediksi Arah Pergerakan Harga Saham Berbasis Analisis Sentimen Twitter terhadap Saham NVIDIA
+# HYBRID MACHINE LEARNING APPROACH TO PREDICTION OF STOCK PRICE MOVEMENT DIRECTION BASED ON TWITTER SENTIMENT ANALYSIS TOWARDS NVIDIA STOCK
 
 📄 Thesis: [Laporan Skripsi — Universitas Multimedia Nusantara, 2026]
 
@@ -38,6 +38,9 @@ Proof-of-Concept Deployment: A fully static, server-free dashboard deployed on G
 
 ## Project Architecture / Research Workflow
 The research follows the CRISP-DM (Cross-Industry Standard Process for Data Mining) framework:
+
+<img width="784" height="542" alt="image" src="https://github.com/user-attachments/assets/daf086b4-ccdc-43cb-842b-407ce961e85c" />
+
 
 ## 🚀 Installation
 

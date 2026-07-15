@@ -130,6 +130,14 @@ This will:
 ## 📊 Results
 
 Model Comparison (Best Feature Scenario: Sentiment + Lag)
+| No | Model | Accuracy | Precision | Recall | F1-Score |
+|----|-------|----------|-----------|--------|----------|
+| 1 | **Hybrid Machine Learning + RF** | **0.88** | **0.85** | **1.00** | **0.92** |
+| 2 | Hybrid Machine Learning + SVM | 0.77 | 1.00 | 0.66 | 0.80 |
+| 3 | SVM | 0.50 | 0.75 | 0.42 | 0.54 |
+| 4 | Random Forest | 0.40 | 0.66 | 0.28 | 0.40 |
+| 5 | LSTM | 0.33 | 0.00 | 0.00 | 0.00 |
+
 <img width="1886" height="940" alt="image" src="https://github.com/user-attachments/assets/8473aad0-31f3-47cf-977e-c27ddcd8f7e6" />
 
 The live dashboard visualizes:

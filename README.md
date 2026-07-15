@@ -39,7 +39,7 @@ Proof-of-Concept Deployment: A fully static, server-free dashboard deployed on G
 ## Project Architecture / Research Workflow
 The research follows the CRISP-DM (Cross-Industry Standard Process for Data Mining) framework:
 
-<img width="784" height="542" alt="image" src="https://github.com/user-attachments/assets/daf086b4-ccdc-43cb-842b-407ce961e85c" />
+<img width="989" height="885" alt="image" src="https://github.com/user-attachments/assets/14bbb59c-8668-4174-9bf1-43342f3a94bc" />
 
 
 ## 🚀 Installation

@@ -132,9 +132,6 @@ This will:
 Model Comparison (Best Feature Scenario: Sentiment + Lag)
 <img width="1886" height="940" alt="image" src="https://github.com/user-attachments/assets/8473aad0-31f3-47cf-977e-c27ddcd8f7e6" />
 
-🌐 View live dashboard
-https://jonathanwidarta76-code.github.io/Jonathan-Widarta-Skripsi-Project/
-
 The live dashboard visualizes:
 1. Model accuracy, precision, recall, F1 metrics
 2. NVDA closing price with ▲/▼ prediction markers (colored by correctness)
@@ -143,6 +140,9 @@ The live dashboard visualizes:
 5. Volume & sentiment vs. price direction comparison chart
 6. Sample positive and negative tweets by VADER compound score
 7. Prediction log table (filterable and sortable)
+
+🌐 View live dashboard
+https://jonathanwidarta76-code.github.io/Jonathan-Widarta-Skripsi-Project/
 
 ---
 
